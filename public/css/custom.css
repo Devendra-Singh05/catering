@@ -1,0 +1,31 @@
+
+  html,
+body{
+    height: 100%;
+   
+}
+
+.main{
+    height: 100%;
+    display: grid;
+    grid-template-rows: 60px  1fr 70px;
+}
+.pagetitle{
+  padding:5px;
+  text-align:center;
+  font-size:2em;
+  font-weight:bold;
+  color:rgba(83, 83, 83, 0.993);
+  text-shadow: 5px 1px 3px #ddb8b8;
+}
+.pagetitle >span {
+  color:rgba(83, 83, 83, 0.993);
+}
+
+.cont{
+  width: 40%;
+  padding: 10px;
+  margin: 130px auto;
+  box-shadow: 1px 1px 5px #334;
+  border-radius: 7px;
+}
