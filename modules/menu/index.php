@@ -26,6 +26,7 @@ if($msg=Session::get('gt')){
             <th>S.No</th>
             <th><input type="checkbox" id="all" onclick="checkdel(this)"><label for="all">All</label></th>
             <th>Item Name</th>
+            <th>Picture</th>
             <th>Category</th>
             <th>Status</th>
             <th>Item Inserted</th>
@@ -42,6 +43,17 @@ if($msg=Session::get('gt')){
             <td>
             <a href="<?=ROOT;?>menu/form/<?= $info['id'];?>" title="click for edit">
             <?=$info['item'];?>
+        </td>
+        <td>
+            <?php
+            if($info['picture']){?>
+        <img class="rounded mx-auto d-block" src="<?=ROOT.'fileupload/images/'.$info['picture'];?>" height="100px" >
+        <?php
+            }
+            else{
+                echo "<span class='text-muted'>N/A</span>";
+            }
+            ?>
         </td>
             <td><?=$info['category'];?></td>
             <td><?=$info['availablity'];?></td>

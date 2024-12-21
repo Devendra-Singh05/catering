@@ -7,14 +7,16 @@ if($uid){
     $picture=$info['picture'];
     
 }
+//for file size
+    // if (($_FILES['picture']['size']) > isset($maxSize)){
+    //     $valid = 0;
+    //     $error = "The file is too large. The maximum allowed size is 1MB.";
+    // }
 if(isset($_POST['item'])){
     $valid=1;
- 
+    
     if($_FILES['picture']['error']==0){
-        if (($_FILES['picture']['size']) > isset($maxSize)){
-            $valid = 0;
-            $error = "The file is too large. The maximum allowed size is 1MB.";
-        }
+        
     if('image'==substr($_FILES['picture']['type'],0,strpos($_FILES['picture']['type'],'/'))){
         if(isset($picture)){
             unlink("fileupload/images/$picture");
@@ -27,6 +29,7 @@ if(isset($_POST['item'])){
              $error= "file type not supported";
     }
     }
+    
     if($valid){
     $info=[
         'item'=>$_POST['item'],
