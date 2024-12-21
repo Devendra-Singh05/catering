@@ -3,6 +3,11 @@ mustlogin();
 $data= db('menu')->all();
 if(isset($_POST['del'])){
     $delid=implode(",",$_POST['del']);
+    foreach($_POST['del'] as $did){
+        if($pn=(db('menu')->find($did,'picture')['picture'])){
+            unlink("fileupload/images/$pn");
+        }
+    }
     db('menu')->delete($delid);
     Session::set('gt',"Data Deleted Successfully");
 redirect('menu');
