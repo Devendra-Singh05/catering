@@ -63,69 +63,118 @@ if(isset($_POST['item'])){
 <div class="alert alert-primary h3 text-center">
     Item <?=$uid?"Edit":"Add"?> Form
 </div>
-<div class="container">
-<form method="post" enctype="multipart/form-data">
-    <div class="mb-3">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu Item Form</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <style>
+    .uploaded-img {
+      max-width: 300px;
+      max-height: 200px;
+      margin-top: 20px;
+      object-fit: cover;
+      border: 2px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form method="post" enctype="multipart/form-data">
+      <div class="mb-3">
         <label for="item">Item Name</label>
-        <input type="text" class="form-control" placeholder="Enter Item Name" required name="item"  id="item" value="<?=$info['item']??''?>">
-    </div>
-    <div class="mb-3">
-        <label for="discription">Discription</label>
-        <textarea class="form-control" rows=1 placeholder="Enter discription"  name="discription"  id="discription"><?=$info['discription']??''?></textarea>
-    </div>
+        <input type="text" class="form-control" placeholder="Enter Item Name" required name="item" id="item" value="<?=$info['item']??''?>">
+      </div>
+      <div class="mb-3">
+        <label for="discription">Description</label>
+        <textarea class="form-control" rows=1 placeholder="Enter description" name="discription" id="discription"><?=$info['discription']??''?></textarea>
+      </div>
 
-    <div class="mb-3">
-        
+      <div class="mb-3">
         <label>Select Category</label>
-        <?php $cats=explode(',',$info['category']??'');?>
+        <?php $cats = explode(',', $info['category'] ?? ''); ?>
         <select name="category[]" class="form-select" multiple>
-            <option value="starter" <?=(in_array('starter',$cats))?'selected':'';?>>starter</option>
-            <option value="maincourse" <?=(in_array('maincourse',$cats))?'selected':'';?>>maincourse</option>
-            <option value="dessert" <?=(in_array('dessert',$cats))?'selected':'';?>>dessert</option>
-            <option value="fastfood" <?=(in_array('fastfood',$cats))?'selected':'';?>>fastfood</option>
+          <option value="starter" <?= (in_array('starter', $cats)) ? 'selected' : ''; ?>>Starter</option>
+          <option value="maincourse" <?= (in_array('maincourse', $cats)) ? 'selected' : ''; ?>>Main Course</option>
+          <option value="dessert" <?= (in_array('dessert', $cats)) ? 'selected' : ''; ?>>Dessert</option>
+          <option value="fastfood" <?= (in_array('fastfood', $cats)) ? 'selected' : ''; ?>>Fast Food</option>
         </select>
-    </div>
+      </div>
 
-
-    <div class="mb-3">
+      <div class="mb-3">
         <label for="availablity">Status</label>
-        <select name="availablity" class="form-select" >
-            <option value="yes">Yes</option>
-            <option value="no" <?=($info['availablity']??'')=='no'? 'selected':'';?>>No
-
-            </option>
+        <select name="availablity" class="form-select">
+          <option value="yes">Yes</option>
+          <option value="no" <?= ($info['availablity'] ?? '') == 'no' ? 'selected' : ''; ?>>No</option>
         </select>
-    </div>
+      </div>
 
-    <div class="mb-3">
+      <div class="mb-3">
         <label for="price">Enter Price</label>
-        <input type="number" class="form-control" placeholder="Enter Price" required name="price"  id="price" value="<?=$info['price']??''?>">
-    </div>
+        <input type="number" class="form-control" placeholder="Enter Price" required name="price" id="price" value="<?=$info['price']??''?>">
+      </div>
 
-    <?php
-    if(isset($picture)){
-        ?>
-
-    
-    <div class="mb-3">
+      <?php
+        if(isset($picture)){
+      ?>
+      <div class="mb-3">
         <label for="picture">Uploaded Picture</label>
         <div class="form-control">
-        <img src="<?=ROOT.'fileupload/images/'.$picture;?>" height="100px" >
-    </div>
-    </div>
-    <?php
-    }
-    ?>
-    <div class="mb-3">
+          <img src="<?=ROOT.'fileupload/images/'.$picture;?>" height="100px">
+        </div>
+      </div>
+      <?php
+        }
+      ?>
+
+      <div class="mb-3">
         <label for="picture">Upload Picture</label>
         <input type="file" name="picture" id="picture" accept="image/*" class="form-control form-control-sm">
-    </div>
+      </div>
 
-   
+ 
+
+  <script>
+    document.getElementById('picture').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const img = new Image();
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+          img.src = e.target.result;
+          img.onload = function() {
+            // Create a canvas to resize the image
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 300;  // Resize width
+            canvas.height = 200; // Resize height
+
+            // Draw the image onto the canvas
+            ctx.drawImage(img, 0, 0, 300, 200);
+
+            // Convert the resized image to a Data URL and display the preview
+            const resizedImageUrl = canvas.toDataURL('image/jpeg');
+            // Show the preview in the image tag or in any other element
+            document.getElementById('picture').setAttribute('data-resized', resizedImageUrl);
+          };
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+</body>
+</html>
+
     
     <div class="mb-3 text-center">
         <button class="btn btn-success"> <?=$uid?"Update":"Save"?>
         </button>
     </div>
+ 
 </form>
 </div>

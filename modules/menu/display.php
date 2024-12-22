@@ -1,105 +1,96 @@
 <?php
 
-$data= db('menu')->filter(['availablity'=>'yes']);
-echo "<pre>";
+$ddata= db('menu')->filter(['availablity'=>'yes']);
 $finaldata=[];
-foreach($data as $info){
+$size=0;
+$categories=[];
+foreach($ddata as $info){
    $cats= explode(',',$info['category']);
-    $finaldata[$info['category']][]=$info;
-
+   if($categories){
+      foreach($cats as $value){
+        if(!in_array($value,$categories)){
+            $categories[]=$value;
+        }
+    }
 }
-print_r($finaldata);
-exit;
+     else{
+            $categories=$cats;
+        }
+}
+
+foreach($ddata as $info){
+   $cats= explode(',',$info['category']);
+    foreach($cats as $val){
+        if(in_array($val,$categories)){
+            $finaldata[$val][]=$info;
+        }
+    }
+}
+
 ?>
 <form method="post">
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catering Menu</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="<?=ROOT;?>public/css/custom.css">
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu Display</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS for Styling -->
+<link rel="stylesheet" href="<?=ROOT;?>public/css/userindex.css">
+  
 </head>
 
 <body>
 
-    <div class="container menu-container">
-        <h1 class="menu-title">Menu</h1>
 
-        <?php
+<div class="container my-5">
+    <div class="menu-header">
+      <h1 class="display-4">Our Menu</h1>
+      <p class="lead">Delicious meals prepared just for you</p>
+    </div>
+
+   
+  <?php foreach($finaldata as $category=>$data){?>
+    <h3 class="mb-4 text-danger"><?= strtoupper($category) ?></h3>
+    <div class="row">
+      <!-- Menu Item 1 -->
+      <?php
         $index=0;
         foreach($data as $info){?>
-        <!-- Appetizers Section -->
-        <div class="category-title">Appetizers</div>
-        <div class="row d-flex justify-content-start">
-        
-            <!-- Menu Item 1 -->
-            <div class="col-md-4 col-sm-6">
-                <div class="menu-item">
-                    <img src="<?=ROOT."fileupload/images/".(($info['picture'])? $info['picture']:"notfound.png");?>" alt="Appetizer 1">
-                    <h3 class="item-title"><?=$info['item'];?></h3>
-                    <p class="item-price">  
-                        <?php 
-                          if($info['price']){
-                          echo $info['price']."$";
-                        }
-                     else{
+      <div class="col-md-4">
+        <div class="card menu-item">
+          <img src="<?=ROOT."fileupload/images/".(($info['picture'])? $info['picture']:"notfound.png");?>" alt="Grilled Chicken" class="card-img-top">
 
-                     echo "Price Not Updated";
-                    }
-            ?>
-            </p>
-                    <p class="item-description"><?=$info['discription'];?></p>
-                    
-                </div>
-            </div>
+          <div class="card-body menu-item-body">
+            <h5 class="card-title"><?=$info['item'];?></h5>
+            <p class="card-text"><?=$info['discription'];?></p>
+            <p class="price">
                 <?php
+                if($info['price']){
+                 echo  "₹".$info['price'];
                 }
-                  ?>
+                else{
+                    echo "price N/A";
+                }
+                ?>
+            </p>
+        
+          </div>
         </div>
-    </div>
-    
+      </div>
+      <?php
+        }
+        ?>
+        <hr>
+    <?php
+  }?>
 </body>
 
 </html>
 
 
 
-<table class="table table-stripted border" id='myTable'>
-    <thead class="table-dark">
-        <tr>
-            <th>S.No</th>
-            
-            <th>Item Name</th>
-            <th>Category</th>
-            <th>Status</th>
-          
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        $index=0;
-        foreach($data as $info){?>
-        <tr>
-            <td><?=++$index?></td>
-            
-            <td>
-         
-            <?=$info['item'];?>
-        </td>
-            <td><?=$info['category'];?></td>
-            <td><?=$info['availablity'];?></td>
-       
-        </tr>
-        <?php
-        }
-        ?>
-
-    </tbody>
-</table>
-
-</form>

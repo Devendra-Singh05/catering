@@ -1,14 +1,15 @@
 <?php
 mustlogin();
-$data= db('menu')->all();
+$dbobj=db('menu');
+$data= $dbobj->all();
 if(isset($_POST['del'])){
     $delid=implode(",",$_POST['del']);
     foreach($_POST['del'] as $did){
-        if($pn=(db('menu')->find($did,'picture')['picture'])){
+        if($pn=($dbobj->find($did,'picture')['picture'])){
             unlink("fileupload/images/$pn");
         }
     }
-    db('menu')->delete($delid);
+    $dbobj->delete($delid);
     Session::set('gt',"Data Deleted Successfully");
 redirect('menu');
 exit;
@@ -66,7 +67,7 @@ if($msg=Session::get('gt')){
             <td>
                 <?php 
             if($info['price']){
-                echo $info['price']."$";
+                echo "₹".$info['price'];
             }
             ?>
             </td>
