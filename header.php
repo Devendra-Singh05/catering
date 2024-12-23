@@ -28,11 +28,11 @@
 </li>
 
 
-<ul style="list-style-type: none; margin: 0; padding: 0; display: flex; justify-content: flex-end;">
-<li class="nav-item dropdown">
+<ul style="list-style-type: none; margin:0; padding:0; display:">
+<li class="nav-item dropdown" style="margin-left: 880px;">
 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 
-            <img src="profile logo.png" alt="Profile Logo" class="profile-logo" width="30" height="30">
+            <img src="<?=ROOT;?>profile logo.png" alt="Profile Logo" class="profile-logo" width="30" height="30">
             <span class="name">Admin</span>
        
 </a>
@@ -79,7 +79,7 @@ User
 <li class="nav-item dropdown">
 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 
-            <img src="profile logo.png" alt="Profile Logo" class="profile-logo" width="30" height="30">
+            <img src="<?=ROOT;?>profile logo.png" alt="Profile Logo" class="profile-logo" width="30" height="30">
             <span class="name">Admin</span>
        
 </a>

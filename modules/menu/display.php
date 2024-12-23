@@ -41,7 +41,31 @@ foreach($ddata as $info){
 
   <!-- Custom CSS for Styling -->
 <link rel="stylesheet" href="<?=ROOT;?>public/css/userindex.css">
-  
+<style>
+        /* Container for the product image with a fixed size of 300x200 pixels */
+        .product-container {
+            width: 300px;
+            height: 200px;
+            overflow: hidden; /* Ensures the image fits within the frame */
+            border: 1px solid #ccc; /* Optional border for visibility */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        /* Style for the image to ensure it fits properly in the container */
+        .product-container img {
+            width: 100%; /* Scale the width of the image to 100% of the container */
+            height: 100%; /* Scale the height of the image to 100% of the container */
+            object-fit: cover; /* Ensures the image covers the frame, cropping if necessary */
+        }
+
+        /* Style for the product title and description */
+        .product-info {
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -62,10 +86,10 @@ foreach($ddata as $info){
         $index=0;
         foreach($data as $info){?>
       <div class="col-md-4">
-        <div class="card menu-item">
-          <img src="<?=ROOT."fileupload/images/".(($info['picture'])? $info['picture']:"notfound.png");?>" alt="Grilled Chicken" class="card-img-top">
+        <div class="card menu-item" class="product-container">
+          <img src="<?=ROOT."fileupload/images/".(($info['picture'])? $info['picture']:"notfound.png");?>" alt="Grilled Chicken" class="card-img-top"> 
 
-          <div class="card-body menu-item-body">
+          <div class="card-body menu-item-body" class="product-info">
             <h5 class="card-title"><?=$info['item'];?></h5>
             <p class="card-text"><?=$info['discription'];?></p>
             <p class="price">
@@ -78,8 +102,9 @@ foreach($ddata as $info){
                 }
                 ?>
             </p>
-        
           </div>
+
+          
         </div>
       </div>
       <?php

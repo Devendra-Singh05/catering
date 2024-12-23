@@ -1,21 +1,25 @@
 <?php
 mustlogin();
 $obj=DB('menu');
+    $maxSize = 1 * 1024 * 1024;
+
 if($uid){
     $info=$obj->find($uid);
-    // $maxSize = 1 * 1024 * 1024;
     $picture=$info['picture'];
     
 }
-//for file size
-    // if (($_FILES['picture']['size']) > isset($maxSize)){
-    //     $valid = 0;
-    //     $error = "The file is too large. The maximum allowed size is 1MB.";
-    // }
+
 if(isset($_POST['item'])){
     $valid=1;
-    
+    //for file size
+  
     if($_FILES['picture']['error']==0){
+
+      if (($_FILES['picture']['size']) > ($maxSize)){
+        $valid = 0;
+        $error = "The file is too large. The maximum allowed size is 1MB.";
+    }
+    else{
         
     if('image'==substr($_FILES['picture']['type'],0,strpos($_FILES['picture']['type'],'/'))){
         if(isset($picture)){
@@ -28,6 +32,7 @@ if(isset($_POST['item'])){
              $valid=0;
              $error= "file type not supported";
     }
+  }
     }
     
     if($valid){
@@ -124,7 +129,7 @@ if(isset($_POST['item'])){
       <div class="mb-3">
         <label for="picture">Uploaded Picture</label>
         <div class="form-control">
-          <img src="<?=ROOT.'fileupload/images/'.$picture;?>" height="100px">
+          <img src="<?=(ROOT.'fileupload/images/'.$picture)?$picture:'';?>" height="100px">
         </div>
       </div>
       <?php
