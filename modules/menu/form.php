@@ -13,27 +13,87 @@ if(isset($_POST['item'])){
     $valid=1;
     //for file size
   
-    if($_FILES['picture']['error']==0){
 
-      if (($_FILES['picture']['size']) > ($maxSize)){
-        $valid = 0;
-        $error = "The file is too large. The maximum allowed size is 1MB.";
-    }
-    else{
+    
+if ($_FILES['picture']['error'] == 0) {
+    // Check if the uploaded file is an image
+    if ('image' == substr($_FILES['picture']['type'], 0, strpos($_FILES['picture']['type'], '/'))) {
         
-    if('image'==substr($_FILES['picture']['type'],0,strpos($_FILES['picture']['type'],'/'))){
-        if(isset($picture)){
+        // Remove the previous image if it exists (optional)
+        if (isset($picture)) {
             unlink("fileupload/images/$picture");
         }
-      $picture=time().$_FILES['picture']['name'];
-      move_uploaded_file($_FILES['picture']['tmp_name'],"fileupload/images/$picture");
+        
+        // Generate a unique name for the uploaded file
+        $picture = time() . $_FILES['picture']['name'];
+        $fileTmpName = $_FILES['picture']['tmp_name'];
+        $fileType = $_FILES['picture']['type'];
 
-    }else{
-             $valid=0;
-             $error= "file type not supported";
+        // Define the output file path
+        $outputFilePath = "fileupload/images/$picture";
+
+        // Check if it's a JPEG file
+        if ($fileType == 'image/jpeg') {
+            // Load the image
+            $image = imagecreatefromjpeg($fileTmpName);
+            
+            // Set the new image quality (0 = worst quality, 100 = best quality)
+            $quality = 35; // Adjust this value based on your needs
+            
+            // Save the compressed image
+            imagejpeg($image, $outputFilePath, $quality);
+            
+            echo "JPEG image uploaded and compressed successfully!";
+            
+        } 
+        // Check if it's a PNG file
+        elseif ($fileType == 'image/png') {
+            // Load the image
+            $image = imagecreatefrompng($fileTmpName);
+            
+            // Set the compression level (0 = no compression, 9 = maximum compression)
+            $compressionLevel = 6; // Adjust this value based on your needs
+            
+            // Save the compressed image
+            imagepng($image, $outputFilePath, $compressionLevel);
+            
+            echo "PNG image uploaded and compressed successfully!";
+            
+        } else {
+            $valid = 0;
+            $error = "File type not supported!";
+        }
+
+        // Clean up
+        if(isset($image)){
+        imagedestroy(($image));
+        }
+        
+    } else {
+        $valid = 0;
+        $error = "Only image files are allowed!";
     }
-  }
-    }
+}
+
+
+  //   if($_FILES['picture']['error']==0){
+
+    
+
+        
+  //   if('image'==substr($_FILES['picture']['type'],0,strpos($_FILES['picture']['type'],'/'))){
+  //       if(isset($picture)){
+  //           unlink("fileupload/images/$picture");
+  //       }
+  //     $picture=time().$_FILES['picture']['name'];
+  //     move_uploaded_file($_FILES['picture']['tmp_name'],"fileupload/images/$picture");
+
+  //   }else{
+  //            $valid=0;
+  //            $error= "file type not supported";
+  //   }
+  // }
+  //   }
     
     if($valid){
     $info=[
@@ -129,7 +189,7 @@ if(isset($_POST['item'])){
       <div class="mb-3">
         <label for="picture">Uploaded Picture</label>
         <div class="form-control">
-          <img src="<?=(ROOT.'fileupload/images/'.$picture)?$picture:'';?>" height="100px">
+          <img src="<?=ROOT."fileupload/images/".(($info['picture'])? $info['picture']:"notfound.png");?>" height="100px">
         </div>
       </div>
       <?php
@@ -143,35 +203,7 @@ if(isset($_POST['item'])){
 
  
 
-  <script>
-    document.getElementById('picture').addEventListener('change', function(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const img = new Image();
-        const reader = new FileReader();
-
-        reader.onload = function(e) {
-          img.src = e.target.result;
-          img.onload = function() {
-            // Create a canvas to resize the image
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = 300;  // Resize width
-            canvas.height = 200; // Resize height
-
-            // Draw the image onto the canvas
-            ctx.drawImage(img, 0, 0, 300, 200);
-
-            // Convert the resized image to a Data URL and display the preview
-            const resizedImageUrl = canvas.toDataURL('image/jpeg');
-            // Show the preview in the image tag or in any other element
-            document.getElementById('picture').setAttribute('data-resized', resizedImageUrl);
-          };
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  </script>
+  
 </body>
 </html>
 
