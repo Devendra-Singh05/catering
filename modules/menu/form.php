@@ -1,7 +1,7 @@
 <?php
 mustlogin();
 $obj=DB('menu');
-    $maxSize = 1 * 1024 * 1024;
+    $maxSize = 2 * 1024 * 1024;
 
 if($uid){
     $info=$obj->find($uid);
@@ -11,9 +11,6 @@ if($uid){
 
 if(isset($_POST['item'])){
     $valid=1;
-    //for file size
-  
-
     
 if ($_FILES['picture']['error'] == 0) {
     // Check if the uploaded file is an image
@@ -28,9 +25,11 @@ if ($_FILES['picture']['error'] == 0) {
         $picture = time() . $_FILES['picture']['name'];
         $fileTmpName = $_FILES['picture']['tmp_name'];
         $fileType = $_FILES['picture']['type'];
+        $fileSize= $_FILES['picture']['size'];
 
         // Define the output file path
         $outputFilePath = "fileupload/images/$picture";
+
 
         // Check if it's a JPEG file
         if ($fileType == 'image/jpeg') {
@@ -38,12 +37,24 @@ if ($_FILES['picture']['error'] == 0) {
             $image = imagecreatefromjpeg($fileTmpName);
             
             // Set the new image quality (0 = worst quality, 100 = best quality)
-            $quality = 35; // Adjust this value based on your needs
-            
+            $quality = 20; // Adjust this value based on your needs
+
+            do {
+              if ($fileType == 'image/jpeg') {
+                  imagejpeg($image, $outputFilePath, $quality);
+              } 
+              
+              // Check file size
+              $fileSize = filesize($outputFilePath);
+              $quality -= 10; // Reduce quality with each iteration
+          } while ($fileSize > $maxSize  && $quality > 2); 
+      
+
             // Save the compressed image
+            
             imagejpeg($image, $outputFilePath, $quality);
             
-            echo "JPEG image uploaded and compressed successfully!";
+            // echo "JPEG image uploaded and compressed successfully!";
             
         } 
         // Check if it's a PNG file
@@ -57,7 +68,7 @@ if ($_FILES['picture']['error'] == 0) {
             // Save the compressed image
             imagepng($image, $outputFilePath, $compressionLevel);
             
-            echo "PNG image uploaded and compressed successfully!";
+            // echo "PNG image uploaded and compressed successfully!";
             
         } else {
             $valid = 0;
