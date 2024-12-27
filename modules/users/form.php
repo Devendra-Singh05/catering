@@ -48,26 +48,34 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="name" class="form-label">Name</label>
-                            <input type="text" id="name" class="form-control" placeholder="Enter your name" required>
+                            <input type="text" id="name" class="form-control" name="name" placeholder="Enter your name" required>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="mobile" class="form-label">Mobile</label>
-                            <input type="text" id="mobile" class="form-control" placeholder="Enter your mobile number" required>
+                            <input type="text" id="mobile" class="form-control" placeholder="Enter your mobile number" name="mobile" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="place" class="form-label">Place</label>
+                            <input type="text" id="place" class="form-control" name="place" placeholder="Enter Place Details" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="select date for booking" class="form-label">Date</label>
+                            <input type="date" id="select date for booking"  name="select date for booking" class="form-control" placeholder="select date for booking" required>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="purpose" class="form-label">Purpose</label>
-                        <textarea id="purpose" class="form-control" rows="3" placeholder="Enter the purpose of booking"></textarea>
+                        <textarea id="purpose" class="form-control" rows="3" name="purpose" placeholder="Enter the purpose of booking"></textarea>
                     </div>
                 </div>
 
                 <!-- Item Details Section -->
                 <div class="form-section">
                     <h5>Item Details</h5>
-                    <div class="row-custom">
+                    <div class="col-custom">
                         <div class="col-custom">
                             <label for="item" class="form-label">Select Item</label>
-                            <select id="item" class="form-select">
+                            <select id="item" class="form-select" name="item">
                                 <option value="" selected disabled>Select an item</option>
                                 <option value="item1">Item 1</option>
                                 <option value="item2">Item 2</option>
@@ -75,12 +83,24 @@
                             </select>
                         </div>
                         <div class="col-custom">
-                            <label for="price" class="form-label">Price</label>
-                            <input type="text" id="price" class="form-control" placeholder="Price" readonly>
+                            <label for="price_per_unit" class="form-label">Price</label>
+                            <input type="text" id="price_per_unit"  name="price_per_unit" class="form-control" placeholder="Price" readonly>
                         </div>
                         <div class="col-custom">
-                            <label for="quantity" class="form-label">Quantity</label>
-                            <input type="number" id="quantity" class="form-control" placeholder="Quantity" min="1" required>
+                            <label for="qty" class="form-label">Quantity</label>
+                            <input type="number" id="qty"  name="qty" class="form-control" placeholder="Quantity" min="1" required>
+                        </div>
+                        <div class="col-custom">
+                            <label for="discount_per_unit" class="form-label">Discount</label>
+                            <input type="number" id="discount_per_unit" name="discount_per_unit" class="form-control" placeholder="Discount" min="1" required>
+                        </div>
+                        <div class="col-custom">
+                            <label for="after_discount_price_per_unit" class="form-label">Final Price</label>
+                            <input type="number" id="after_discount_price_per_unit" name="after_discount_price_per_unit" class="form-control" placeholder="Final Price" min="1" required>
+                        </div>
+                        <div class="col-custom">
+                            <label for="total" class="form-label">Total</label>
+                            <input type="number" id="quantity" name="total" class="form-control" placeholder="total" min="1" required>
                         </div>
                     </div>
                 </div>
@@ -100,3 +120,4 @@
 </body>
 
 </html>
+
