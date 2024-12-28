@@ -70,3 +70,35 @@ body {
       height: auto; /* Maintain aspect ratio */
     }
   }
+
+
+/*booking form*/
+        Button Customization 
+         .btn-submit {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: 50;
+            padding: 12px 10px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            width: 20%;
+            border: none;
+            transition: background-color 0.3s;
+        } 
+
+        .btn-submit:hover {
+            background-color: #0056b3;
+            cursor: pointer;
+        }
+
+        /* Smaller Icon inside button */
+        .btn-submit i {
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        /* Aligning Item Details section in a single line */
+        .col-custom {
+            margin-right: 15px;
+        }
+ 

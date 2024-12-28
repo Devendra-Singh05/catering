@@ -1,3 +1,11 @@
+<?php
+$allitems=DB('menu')->all('id,item');
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,36 +17,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome CDN for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <style>
-        /* Button Customization */
-        .btn-submit {
-            background-color: #007bff;
-            color: #fff;
-            font-weight: 500;
-            padding: 12px 30px;
-            border-radius: 30px;
-            text-transform: uppercase;
-            width: 100%;
-            border: none;
-            transition: background-color 0.3s;
-        }
-
-        .btn-submit:hover {
-            background-color: #0056b3;
-            cursor: pointer;
-        }
-
-        /* Smaller Icon inside button */
-        .btn-submit i {
-            font-size: 14px;
-            margin-right: 10px;
-        }
-
-        /* Aligning Item Details section in a single line */
-        .col-custom {
-            margin-right: 15px;
-        }
-    </style>
+<link rel="stylesheet" href="<?=ROOT;?>public/css/userindex.css">
+    
 </head>
 
 <body>
@@ -48,8 +28,9 @@
             <h2 class="text-center">Booking Form</h2>
             <form>
                 <!-- General Information Section -->
+                 <div class="container"  style="border: 1px solid black; border-radius: 5px;" >
                 <div class="form-section">
-                    <h5>General Information</h5>
+                    <h5 style="font-weight: bold";>General Information</h5>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="name" class="form-label">Name</label>
@@ -65,7 +46,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="select date for booking" class="form-label">Date</label>
-                            <input type="date" id="select date for booking" name="select date for booking" class="form-control" placeholder="select date for booking" required>
+                            <input type="date" id="select date for booking"  name="select date for booking" class="form-control" placeholder="select date for booking" required>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -73,23 +54,25 @@
                         <textarea id="purpose" class="form-control" rows="3" name="purpose" placeholder="Enter the purpose of booking"></textarea>
                     </div>
                 </div>
+                </div>
 
                 <!-- Item Details Section -->
-                <div class="form-section">
-                    <h5>Item Details</h5>
+                <div class="container"  style="border: 1px solid black; border-radius: 5px;  margin-top: 10px; min-height: 200px; padding: 30px;" >
+                <div class="form-section"  >
+                    <h5 style="font-weight: bold";>Item Details</h5>
                     <div class="row">
                         <div class="col-md-2 mb-3">
                             <label for="item" class="form-label">Select Item</label>
-                            <select id="item" class="form-select" name="item">
-                                <option value="" selected disabled>Select an item</option>
-                                <option value="item1">Item 1</option>
-                                <option value="item2">Item 2</option>
-                                <option value="item3">Item 3</option>
+                            <select id="item" class="form-select" name="item" onchange="setPrice(this.value,'<?=ROOT;?>')">
+                                <option value="" selected >Select an item</option>
+                                <?php foreach($allitems as $item){?>
+                                <option value="<?=$item['id'];?>"><?=$item['item'];?></option>
+                                <?php } ?>
                             </select>
                         </div>
                         <div class="col-md-2 mb-3">
-                            <label for="price_per_unit" class="form-label">Price</label>
-                            <input type="text" id="price_per_unit" name="price_per_unit" class="form-control" placeholder="Price" readonly>
+                            <label for="price_per_unit" class="form-label" >Price</label>
+                            <input type="text" id="price_per_unit" name="price_per_unit" class="form-control" placeholder="Price" style="background-color:rgb(214, 214, 214)" readonly>
                         </div>
                         <div class="col-md-2 mb-3">
                             <label for="qty" class="form-label">Quantity</label>
@@ -109,10 +92,13 @@
                         </div>
                     </div>
                 </div>
+                
+
+                </div>
 
                 <!-- Submit Button -->
-                <div class="text-center">
-                    <button type="submit" class="btn-submit">
+                <div class="text-center" style=" margin-top: 10px; ">
+                    <button type="submit" style="background-color:rgb(150, 201, 255)"  >
                         <i class="fas fa-paper-plane"></i> Submit Booking
                     </button>
                 </div>
@@ -120,9 +106,24 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS (Optional for interactivity) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+   
 </body>
 
 </html>
 
+<script>
+    function setPrice(id,root){
+       $.ajax({
+           url:root+"loaditem",
+           type:'get',
+           data:"id="+id,
+           success:function(r){
+                alert("success");
+                      },
+                    error:function(e){
+                alert("error");
+                        
+                    }           
+       });
+    }
+</script>
