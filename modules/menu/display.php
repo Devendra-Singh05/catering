@@ -94,8 +94,8 @@ foreach($ddata as $info){
             <p class="card-text"><?=$info['discription'];?></p>
             <p class="price">
                 <?php
-                if($info['price']){
-                 echo  "₹".$info['price'];
+                if(isset($info['price']) or isset($info['unit'])){
+                 echo  "₹".$info['price']." / ".($info['unit']);
                 }
                 else{
                     echo "price N/A";
@@ -116,6 +116,5 @@ foreach($ddata as $info){
 </body>
 
 </html>
-
 
 

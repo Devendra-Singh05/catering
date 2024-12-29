@@ -197,10 +197,9 @@ if ($_FILES['picture']['error'] == 0) {
 
       <div class="mb-3">
         <label for="unit">Unit</label>
-        <input type="text" class="form-control" placeholder="Enter Unit" required name="unit" id="unit" list="un" value="<?=$info['unit']??''?>">
+        <input type="text" placeholder="Enter Unit" class="form-select" required name="unit" id="unit" list="un" value="<?=$info['unit']??''?>">
          <datalist id="un">
          <option value="KG">
-
          <option value="Plate">
           <option value="Piece">
          </datalist>

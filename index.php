@@ -25,8 +25,10 @@ if($url){
 //  print_r($_GET);
 $path="modules/$module/$file.php";
 if(file_exists($path)){
+    if($file!='loaditem')
     include_once "header.php";
 include_once "$path";
+if($file!='loaditem')
 include_once "footer.php";
 }
 else{

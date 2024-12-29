@@ -27,10 +27,10 @@ $allitems=DB('menu')->all('id,item');
         <div class="form-container">
             <h2 class="text-center">Booking Form</h2>
             <form>
-                <!-- General Information Section -->
+                <!-- General Information Section --><h5 style="font-weight: bold";>General Information</h5>
                  <div class="container"  style="border: 1px solid black; border-radius: 5px;" >
                 <div class="form-section">
-                    <h5 style="font-weight: bold";>General Information</h5>
+                    
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="name" class="form-label">Name</label>
@@ -57,26 +57,28 @@ $allitems=DB('menu')->all('id,item');
                 </div>
 
                 <!-- Item Details Section -->
-                <div class="container"  style="border: 1px solid black; border-radius: 5px;  margin-top: 10px; min-height: 200px; padding: 30px;" >
+                 <div id="parentdiv"style=" margin-top: 10px;">
+                 <h5 style="font-weight: bold ";>Item Details</h5>
+                <div class="container"  style="border: 0.5px solid black; border-radius: 5px;  margin-top: 10px;  padding: 30px;"  id="childdiv1">
                 <div class="form-section"  >
-                    <h5 style="font-weight: bold";>Item Details</h5>
+                   
                     <div class="row">
                         <div class="col-md-2 mb-3">
                             <label for="item" class="form-label">Select Item</label>
-                            <select id="item" class="form-select" name="item" onchange="setPrice(this.value,'<?=ROOT;?>')">
+                            <select id="item" class="form-select"  onchange="setPrice(this.value,'<?=ROOT;?>')">
                                 <option value="" selected >Select an item</option>
                                 <?php foreach($allitems as $item){?>
                                 <option value="<?=$item['id'];?>"><?=$item['item'];?></option>
                                 <?php } ?>
                             </select>
                         </div>
-                        <div class="col-md-2 mb-3">
+                        <div class="col-md-2 mb-3" id="dprice1">
                             <label for="price_per_unit" class="form-label" >Price</label>
                             <input type="text" id="price_per_unit" name="price_per_unit" class="form-control" placeholder="Price" style="background-color:rgb(214, 214, 214)" readonly disabled>
                         </div>
-                        <div class="col-md-2 mb-3">
+                        <div class="col-md-2 mb-3" >
                             <label for="qty" class="form-label">Quantity</label>
-                            <input type="number" id="qty" name="qty" class="form-control" placeholder="Quantity" min="1" required>
+                            <input type="number" id="qty" name="qty" class="form-control"  placeholder="Quantity" min="1" required>
                         </div>
                         <div class="col-md-2 mb-3">
                             <label for="discount_per_unit" class="form-label">Discount</label>
@@ -95,6 +97,13 @@ $allitems=DB('menu')->all('id,item');
                 
 
                 </div>
+                </div>
+
+               <div>
+                <input type="hidden" id="totnode" value="1">
+                <button type="button"  class="btn btn-success" onclick="createNodess()">New</button>
+               </div>
+
 
                 <!-- Submit Button -->
                 <div class="text-center" style=" margin-top: 10px; ">
@@ -111,14 +120,16 @@ $allitems=DB('menu')->all('id,item');
 
 </html>
 
-<script>
+ <script>
     function setPrice(id,root){
+        
        $.ajax({
-           url:root+"loaditem",
-           type:'get',
+           url:root+"menu/loaditem.",
+           type:"get",
            data:"id="+id,
            success:function(r){
-                alert("success");
+            // alert("success")
+               dprice.innerHTML = r;
                       },
                     error:function(e){
                 alert("error");
@@ -126,4 +137,12 @@ $allitems=DB('menu')->all('id,item');
                     }           
        });
     }
-</script>
+    function createNodess(){
+        totnode.value = Number(totnode.value) + 1;
+        const x = childdiv1.cloneNode(true);
+        x.id = "childdiv"+totnode.value
+        parentdiv.appendChild(x);
+        
+
+    }
+</script>  
