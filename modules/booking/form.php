@@ -72,7 +72,7 @@ $allitems=DB('menu')->all('id,item');
                         </div>
                         <div class="col-md-2 mb-3">
                             <label for="price_per_unit" class="form-label" >Price</label>
-                            <input type="text" id="price_per_unit" name="price_per_unit" class="form-control" placeholder="Price" style="background-color:rgb(214, 214, 214)" readonly>
+                            <input type="text" id="price_per_unit" name="price_per_unit" class="form-control" placeholder="Price" style="background-color:rgb(214, 214, 214)" readonly disabled>
                         </div>
                         <div class="col-md-2 mb-3">
                             <label for="qty" class="form-label">Quantity</label>

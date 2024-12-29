@@ -113,6 +113,7 @@ if ($_FILES['picture']['error'] == 0) {
         'category'=>$_POST['category']?implode(',',$_POST['category']):"",
         'availablity'=>$_POST['availablity'],
         'price'=>$_POST['price'],
+        'unit'=>$_POST['unit'],
         'picture'=>$picture
     ];
     if($obj->save($info,$uid)){
@@ -192,6 +193,17 @@ if ($_FILES['picture']['error'] == 0) {
       <div class="mb-3">
         <label for="price">Enter Price</label>
         <input type="number" class="form-control" placeholder="Enter Price" required name="price" id="price" value="<?=$info['price']??''?>">
+      </div>
+
+      <div class="mb-3">
+        <label for="unit">Unit</label>
+        <input type="text" class="form-control" placeholder="Enter Unit" required name="unit" id="unit" list="un" value="<?=$info['unit']??''?>">
+         <datalist id="un">
+         <option value="KG">
+
+         <option value="Plate">
+          <option value="Piece">
+         </datalist>
       </div>
 
       <?php
