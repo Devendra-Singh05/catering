@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 22, 2024 at 09:58 PM
+-- Generation Time: Dec 30, 2024 at 06:51 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,7 +34,8 @@ CREATE TABLE `customer` (
   `purpose` varchar(200) NOT NULL,
   `place` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `select date for booking` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -52,17 +53,20 @@ CREATE TABLE `menu` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `picture` varchar(150) DEFAULT NULL,
-  `price` float DEFAULT NULL
+  `price` float DEFAULT NULL,
+  `unit` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `menu`
 --
 
-INSERT INTO `menu` (`id`, `item`, `discription`, `availablity`, `category`, `created_at`, `updated_at`, `picture`, `price`) VALUES
-(52, 'gate ki sabji', '', 'yes', 'starter,maincourse,fastfood', '2024-12-22 20:11:59', '2024-12-22 20:11:59', '1734898319paneer.jpg', 43),
-(53, 'beer', 'efsss', 'yes', 'starter', '2024-12-22 20:12:20', '2024-12-22 20:12:20', '1734898340paneer.jpg', 160),
-(54, 'gulab jamun', 'The dough is typically made from milk solids, like khoya, which is milk that\'s been reduced to a soft dough consistency. Other ingredients may include flour, baking powder, and clarified butter (ghee). The syrup is made with sugar, rose water, cardamom, kewra, or saffron', 'yes', 'dessert', '2024-12-22 20:22:11', '2024-12-22 20:22:11', '1734898931gulab jamun.jpeg', 50);
+INSERT INTO `menu` (`id`, `item`, `discription`, `availablity`, `category`, `created_at`, `updated_at`, `picture`, `price`, `unit`) VALUES
+(86, 'shahi paneer\'s', 'This dish is prepared by emulsifying tomatoes, onions, ground cashews, clarified butter and cream into a curry, with the addition of chhena/paneer cubes and a variety of spices. It is mainly eaten with traditional Indian flat-breads like tawa roti or tandoori roti, rice and bread', 'yes', 'maincourse', '2024-12-25 17:02:25', '2024-12-29 15:58:01', '1735146145paneer1.jpeg', 350, 'Plate'),
+(87, 'gulab jamun', 'Gulab jamun are soft delicious berry sized balls made with milk solids, flour & a leavening agent. These are soaked in rose flavored sugar syrup & enjoyed. The word “Gulab” translates to rose in Hindi', 'yes', 'maincourse,dessert', '2024-12-25 17:03:44', '2024-12-29 15:57:54', '1735146224gulab jamun.jpeg', 300, 'KG'),
+(88, 'samose', 'A small, triangular, cone, or crescent-shaped pastry with a savory filling. Samosas are often made with spiced potatoes, onions, peas, and lentils, but can also include meat or fish. They are characterized by a flaky pastry coating and are often served hot with chutney. ', 'yes', 'fastfood', '2024-12-25 17:19:30', '2024-12-29 15:57:44', '1735147170pexels-marvin-ozz-1297854-2474658.jpg', 15, 'Piece'),
+(89, 'gate ki sabji', 'A small, triangular, cone, or crescent-shaped pastry with a savory filling. Samosas are often made with spiced potatoes, onions, peas, and lentils, but can also include meat or fish. They are characterized by a flaky pastry coating and are often served hot with chutney. \r\n\r\n', 'yes', 'starter,maincourse,dessert,fastfood', '2024-12-25 17:26:58', '2024-12-29 15:57:33', '1735147617pexels-tomfisk-1519753.jpg', 400, 'Plate'),
+(93, 'paneer buttor masala', 'fadsafcasdf', 'yes', 'maincourse', '2024-12-29 16:18:22', '2024-12-29 16:18:22', '1735489102paneer.jpg', 100, 'KG');
 
 -- --------------------------------------------------------
 
@@ -146,7 +150,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` bigint(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` bigint(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT for table `slip`
