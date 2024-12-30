@@ -121,12 +121,12 @@ $allitems=DB('menu')->all('id,item');
 </html>
 
  <script>
-    function setPrice(id,root){
+    function setPrice(id,root,elno){
         
        $.ajax({
            url:root+"menu/loaditem.",
-           type:"get",
-           data:"id="+id,
+           type: "get",
+           data: "id=" + id,
            success:function(r){
             // alert("success")
                dprice.innerHTML = r;
@@ -140,6 +140,9 @@ $allitems=DB('menu')->all('id,item');
     function createNodess(){
         totnode.value = Number(totnode.value) + 1;
         const x = childdiv1.cloneNode(true);
+        x.children[0].children[1].id="dprice"+totnode.value;
+        //  console.log(x.children[0].children[1]);
+        
         x.id = "childdiv"+totnode.value
         parentdiv.appendChild(x);
         
