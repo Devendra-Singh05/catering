@@ -24,7 +24,7 @@ $allitems=DB('menu')->all('id,item');
 <body>
 
     <div class="container">
-        <div class="form-container">
+        
             <h2 class="text-center">Booking Form</h2>
             <form>
                 <!-- General Information Section --><h5 style="font-weight: bold";>General Information</h5>
@@ -59,19 +59,18 @@ $allitems=DB('menu')->all('id,item');
                 <!-- Item Details Section -->
                  <div id="parentdiv"style=" margin-top: 10px;">
                  <h5 style="font-weight: bold ";>Item Details</h5>
-                <div class="container"  style="border: 0.5px solid black; border-radius: 5px;  margin-top: 10px;  padding: 30px;"  id="childdiv1">
-                <div class="form-section"  >
-                   
-                    <div class="row">
-                        <div class="col-md-2 mb-3">
-                            <label for="item" class="form-label">Select Item</label>
-                            <select id="item" class="form-select"  onchange="setPrice(this.value,'<?=ROOT;?>')">
+                    <div class="form-section"  style="border: 0.5px solid black; border-radius: 5px;  margin-top: 10px;  padding: 30px;"  id="childdiv1">
+                       
+                        <div class="row">
+                             <div class="col-md-2 mb-3">
+                                <label for="item" class="form-label">Select Item</label>
+                                <select id="item" class="form-select"  onchange="setPrice(this.value,'<?=ROOT;?>',1)">
                                 <option value="" selected >Select an item</option>
                                 <?php foreach($allitems as $item){?>
                                 <option value="<?=$item['id'];?>"><?=$item['item'];?></option>
                                 <?php } ?>
-                            </select>
-                        </div>
+                                 </select>
+                            </div>
                         <div class="col-md-2 mb-3" id="dprice1">
                             <label for="price_per_unit" class="form-label" >Price</label>
                             <input type="text" id="price_per_unit" name="price_per_unit" class="form-control" placeholder="Price" style="background-color:rgb(214, 214, 214)" readonly disabled>
@@ -94,14 +93,12 @@ $allitems=DB('menu')->all('id,item');
                         </div>
                     </div>
                 </div>
-                
+            </div>
 
-                </div>
-                </div>
-
-               <div>
+          
+               <div style="margin-top: 10px;">
                 <input type="hidden" id="totnode" value="1">
-                <button type="button"  class="btn btn-success" onclick="createNodess()">New</button>
+                <button type="button"  class="btn btn-success" onclick="createNodess('<?=ROOT;?>')">New</button>
                </div>
 
 
@@ -111,12 +108,15 @@ $allitems=DB('menu')->all('id,item');
                         <i class="fas fa-paper-plane"></i> Submit Booking
                     </button>
                 </div>
+            
+            </div>
+            
             </form>
         </div>
-    </div>
+
 
    
-</body>
+</body> 
 
 </html>
 
@@ -129,7 +129,8 @@ $allitems=DB('menu')->all('id,item');
            data: "id=" + id,
            success:function(r){
             // alert("success")
-               dprice.innerHTML = r;
+            //    dprice.innerHTML = r;
+            document.getElementById('dprice'+elno).innerHTML = r;
                       },
                     error:function(e){
                 alert("error");
@@ -137,11 +138,16 @@ $allitems=DB('menu')->all('id,item');
                     }           
        });
     }
-    function createNodess(){
-        totnode.value = Number(totnode.value) + 1;
-        const x = childdiv1.cloneNode(true);
-        x.children[0].children[1].id="dprice"+totnode.value;
-        //  console.log(x.children[0].children[1]);
+    function createNodess(root) {
+            totnode.value = Number(totnode.value) + 1;
+            const x = childdiv1.cloneNode(true);
+            x.children[0].children[1].id = "dprice" + totnode.value;
+            let sel = x.children[0].children[0].children[1];
+            sel.removeAttribute('onchange', '');
+
+            sel.addEventListener('change', () => {
+                setPrice(sel.value, root, totnode.value);
+            })
         
         x.id = "childdiv"+totnode.value
         parentdiv.appendChild(x);
