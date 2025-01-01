@@ -92,7 +92,7 @@ foreach($ddata as $info){
           <div class="card-body menu-item-body" class="product-info">
             <h5 class="card-title"><?=$info['item'];?></h5>
             <p class="card-text"><?=$info['discription'];?></p>
-            <p class="price">
+            <p class="price" style="color: red;">
                 <?php
                 if(isset($info['price']) or isset($info['unit'])){
                  echo  "₹".$info['price']." / ".($info['unit']);
@@ -116,5 +116,4 @@ foreach($ddata as $info){
 </body>
 
 </html>
-
 

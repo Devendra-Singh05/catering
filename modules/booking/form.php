@@ -1,5 +1,5 @@
 <?php
-$allitems=DB('menu')->all('id,item');
+$allitems=DB('menu')->all('id,item,unit');
 ?>
 
 
@@ -64,8 +64,8 @@ $allitems=DB('menu')->all('id,item');
                         <div class="row">
                              <div class="col-md-2 mb-3">
                                 <label for="item" class="form-label">Select Item</label>
-                                <select id="item" class="form-select"  onchange="setPrice(this.value,'<?=ROOT;?>',1)">
-                                <option value="" selected >Select an item</option>
+                                <select id="item" name="item[]" class="form-select"  onchange="setPrice(this.value,'<?=ROOT;?>',1)">
+                                <option value="" selected disabled >Select an item</option>
                                 <?php foreach($allitems as $item){?>
                                 <option value="<?=$item['id'];?>"><?=$item['item'];?></option>
                                 <?php } ?>
@@ -73,23 +73,28 @@ $allitems=DB('menu')->all('id,item');
                             </div>
                         <div class="col-md-2 mb-3" id="dprice1">
                             <label for="price_per_unit" class="form-label" >Price</label>
-                            <input type="text" id="price_per_unit" name="price_per_unit" class="form-control" placeholder="Price" style="background-color:rgb(214, 214, 214)" readonly disabled>
+                             <div class="input-group">
+                            <input type="text" id="price_per_unit1" name="price_per_unit[]" class="form-control" placeholder="Price" style="background-color:rgb(214, 214, 214)" readonly disabled>
+                            <div class="input-group-append">
+                            <span class="input-group-text"></span>
+                            </div>
+                           </div>
                         </div>
                         <div class="col-md-2 mb-3" >
                             <label for="qty" class="form-label">Quantity</label>
-                            <input type="number" id="qty" name="qty" class="form-control"  placeholder="Quantity" min="1" required>
+                            <input type="number" id="qty1" name="qty[]" class="form-control" onkeyup="calprice(this)"  placeholder="Quantity" min="1" required>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label for="after_discount_price_per_unit" class="form-label">Final Price(Per Unit) </label>
+                            <input type="number" id="after_discount_price_per_unit1" name="after_discount_price_per_unit[]" onkeyup="calprice(this)"  class="form-control" placeholder="Final Price" min="1" required>
                         </div>
                         <div class="col-md-2 mb-3">
                             <label for="discount_per_unit" class="form-label">Discount</label>
-                            <input type="number" id="discount_per_unit" name="discount_per_unit" class="form-control" placeholder="Discount" min="1" required>
-                        </div>
-                        <div class="col-md-2 mb-3">
-                            <label for="after_discount_price_per_unit" class="form-label">Final Price</label>
-                            <input type="number" id="after_discount_price_per_unit" name="after_discount_price_per_unit" class="form-control" placeholder="Final Price" min="1" required>
+                            <input type="number" id="discount_per_unit1" name="discount_per_unit[]"  class="form-control" placeholder="Discount" min="1" required>
                         </div>
                         <div class="col-md-2 mb-3">
                             <label for="total" class="form-label">Total</label>
-                            <input type="number" id="quantity" name="total" class="form-control" placeholder="total" min="1" required>
+                            <input type="number" id="total1" name="total[]" class="form-control" placeholder="total" min="1" required>
                         </div>
                     </div>
                 </div>
@@ -126,7 +131,7 @@ $allitems=DB('menu')->all('id,item');
        $.ajax({
            url:root+"menu/loaditem.",
            type: "get",
-           data: "id=" + id,
+           data: "id=" + id+"&eleno="+elno,
            success:function(r){
             // alert("success")
             //    dprice.innerHTML = r;
@@ -152,6 +157,31 @@ $allitems=DB('menu')->all('id,item');
         x.id = "childdiv"+totnode.value
         parentdiv.appendChild(x);
         
+
+    }
+
+    function calprice(obj){
+        let topnode= obj.parentNode.parentNode.parentNode;
+        let item = topnode.children[0].children[0].children[1];
+
+        let price = topnode.children[0].children[1].children[1].children[1];
+        let qty = topnode.children[0].children[2].children[1];
+
+        let fp = topnode.children[0].children[3].children[1];
+
+        let dis = topnode.children[0].children[4].children[1];
+        let tot = topnode.children[0].children[5].children[1];
+        if(price.value){
+       if(qty.value && fp.value){
+        tot.value=qty.value*fp.value;
+       }
+    }
+    else{
+        qty.value=fp.value="";
+        alert("First Select Item");
+        item.focus();
+
+    }
 
     }
 </script>  
